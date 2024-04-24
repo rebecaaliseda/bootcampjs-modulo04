@@ -7,15 +7,18 @@ let contador: number = 0;
 if (botonSiguiente && botonSiguiente instanceof HTMLButtonElement) {
   botonSiguiente.addEventListener('click', sumarNum);
 }
+
+const mostrarTurno = () => {
+  let cadenaResult: string = contador.toString().padStart(2, '0');
+  if (idNumTurno && idNumTurno instanceof HTMLElement) {
+    idNumTurno.innerHTML = cadenaResult;
+  }
+};
+
 function sumarNum() {
-  let result: number = ++contador;
-  let cadenaResult: string = result.toString();
-  if (result >= 0) {
-    cadenaResult = cadenaResult.padStart(2, '0');
-    if (idNumTurno) {
-      contador = result;
-      idNumTurno.innerHTML = cadenaResult;
-    }
+  contador++;
+  if (contador >= 0) {
+    mostrarTurno();
   }
 }
 
@@ -24,14 +27,9 @@ if (botonAnterior && botonAnterior instanceof HTMLButtonElement) {
   botonAnterior.addEventListener('click', restarNum);
 }
 function restarNum() {
-  let result: number = --contador;
-  if (result >= 0) {
-    let cadenaResult: string = result.toString();
-    cadenaResult = cadenaResult.padStart(2, '0');
-    if (idNumTurno) {
-      contador = result;
-      idNumTurno.innerHTML = cadenaResult;
-    }
+  contador--;
+  if (contador >= 0) {
+    mostrarTurno();
   }
 }
 
@@ -40,13 +38,8 @@ if (botonReset && botonReset instanceof HTMLButtonElement) {
   botonReset.addEventListener('click', resetNum);
 }
 function resetNum() {
-  let result: number = 0;
-  let cadenaResult: string = result.toString();
-  cadenaResult = cadenaResult.padStart(2, '0');
-  if (idNumTurno) {
-    contador = result;
-    idNumTurno.innerHTML = cadenaResult;
-  }
+  contador = 0;
+  mostrarTurno();
 }
 
 const botonActualizar = document.getElementById('actualizar');
@@ -59,11 +52,7 @@ function actualizarNum() {
     let numTurnoIntroducido = introducirTurno.value;
     if (numTurnoIntroducido) {
       contador = parseInt(numTurnoIntroducido);
-      let cadenaNumTurno: string = numTurnoIntroducido.toString();
-      cadenaNumTurno = cadenaNumTurno.padStart(2, '0');
-      if (idNumTurno) {
-        idNumTurno.innerHTML = cadenaNumTurno;
-      }
+      mostrarTurno();
     }
   }
 }
